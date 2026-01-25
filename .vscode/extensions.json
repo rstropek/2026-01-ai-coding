@@ -3,6 +3,8 @@
         "fill-labs.dependi",
         "ms-python.python",
         "ms-python.debugpy",
-        "dbaeumer.vscode-eslint"
+        "dbaeumer.vscode-eslint",
+        "ms-python.mypy-type-checker",
+        "qwtel.sqlite-viewer"
     ]
 }

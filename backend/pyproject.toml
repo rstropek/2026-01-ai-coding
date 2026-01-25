@@ -7,6 +7,7 @@ requires-python = ">=3.14"
 dependencies = [
     "alembic>=1.18.1",
     "fastapi>=0.128.0",
+    "pydantic-settings>=2.12.0",
     "sqlalchemy>=2.0.46",
     "uvicorn>=0.40.0",
 ]
@@ -32,7 +33,7 @@ quote-style = "double"
 
 [tool.ruff.lint]
 select = ["ALL"]
-ignore = ["D100", "D103", "D104", "D203", "D213"]
+ignore = ["D100", "D101", "D103", "D104", "D203", "D213"]
 
 [tool.ruff.lint.per-file-ignores]
 "test_*.py" = ["S101"]  # Allow assert usage in test files

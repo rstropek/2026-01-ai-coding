@@ -50,6 +50,33 @@ cd frontend
 npm run generate-types
 ```
 
+## Database Setup and Management
+
+This project uses **SQLAlchemy 2** as the ORM and **Alembic** for database migrations.
+
+## Database Configuration
+
+The database URL is configured in `app/settings.py` and defaults to SQLite. You can override this by setting the `DATABASE_URL` environment variable or creating a `.env` file.
+
+How to manage the database:
+
+```bash
+# Run all pending migrations
+uv run alembic upgrade head
+```
+
+After modifying models in `app/models.py`, create a new migration:
+
+```bash
+# Auto-generate migration from model changes
+uv run alembic revision --autogenerate -m "Description of changes"
+
+# Review the generated migration file in alembic/versions/
+
+# Then apply it:
+uv run alembic upgrade head
+```
+
 ## Running the Project
 
 To run the project, you must start the backend and the frontend in the background:
