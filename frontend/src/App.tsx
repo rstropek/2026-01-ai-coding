@@ -1,11 +1,16 @@
 import './styles.css';
-import { PingDemo } from './components/PingDemo';
+import { Routes, Route } from 'react-router-dom';
+import { Layout } from '@/components/Layout';
+import { Home } from '@/pages/Home';
+import { PingPage } from '@/pages/PingPage';
 
 export function App() {
   return (
-    <div>
-      <h1>Hello World</h1>
-      <PingDemo />
-    </div>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Home />} />
+        <Route path="ping" element={<PingPage />} />
+      </Route>
+    </Routes>
   );
 }

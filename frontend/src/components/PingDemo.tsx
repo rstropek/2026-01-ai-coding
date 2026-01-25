@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import createClient from 'openapi-fetch';
-import type { paths } from '../api_schema';
+import type { paths } from '@/api_schema';
 
 const client = createClient<paths>({ baseUrl: '/' });
 
