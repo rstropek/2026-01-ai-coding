@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "composite": true,
+        "module": "esnext",
+        "moduleResolution": "Bundler",
+        "skipLibCheck": true,
+        "strict": true,
+        "types": ["node"]
+    },
+    "include": [
+        "vite.config.ts"
+    ]
+}

@@ -1,0 +1,19 @@
+[project]
+name = "codingwithai"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "alembic>=1.18.1",
+    "fastapi>=0.128.0",
+    "sqlalchemy>=2.0.46",
+    "uvicorn>=0.40.0",
+]
+
+[dependency-groups]
+dev = [
+    "mypy>=1.19.1",
+    "pytest>=9.0.2",
+    "ruff>=0.14.14",
+]

@@ -1,0 +1,33 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Backend",
+        "type": "shell",
+        "command": "uv run uvicorn app.main:app --reload",
+        "options": {
+          "cwd": "backend"
+        },
+        "problemMatcher": [],
+        "isBackground": true
+      },
+      {
+        "label": "Frontend",
+        "type": "shell",
+        "command": "npm start",
+        "options": {
+          "cwd": "frontend"
+        },
+        "problemMatcher": [],
+        "isBackground": true
+      },
+      {
+        "label": "Dev: Backend + Frontend",
+        "dependsOn": [
+          "Backend",
+          "Frontend"
+        ],
+        "dependsOrder": "parallel"
+      }
+    ]
+  }
