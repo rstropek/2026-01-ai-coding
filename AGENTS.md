@@ -76,13 +76,13 @@ npm install
 cd backend
 uv run ruff check      # Lint
 uv run mypy            # Type check
-uv run pytest          # Run tests
+uv run pytest          # Run tests (tests in app/**/test_*.py)
 
 # Frontend
 cd frontend
 npm run lint           # Lint
 npm run typecheck      # Type check
-npm run test           # Run tests
+npm run test           # Run tests (tests in src/**/*.test.tsx)
 ```
 
 ### API Schema Generation
@@ -123,18 +123,28 @@ cd frontend
 npm start
 ```
 
-**Note:** The frontend includes a proxy to the backend API configured in `vite.config.ts`.
+Ports:
+- Backend: http://localhost:8000
+- Frontend: http://localhost:5173 (Vite default port)
+
+The frontend proxies `/api` requests to http://localhost:8000 (configured in `vite.config.ts`).
 
 ## Contribution Guidelines
 
 * You MUST run linter, type checker and tests if you modify the code.
 * Your code MUST be warning free.
 * You MUST create DB migrations and apply them to the database if you modify the models.
+* If you modify code related to the API, you MUST update the OpenAPI specification and regenerate the API types.
 
 ## Coding Guidelines
+
+### Python
+
+* Use type hints for all function signatures and class attributes.
+* Follow ruff's strict linting rules (configured in `pyproject.toml`).
 
 ### TypeScript
 
 * PREFER using the `@/` alias for all imports over relative imports.
 * Use CSS nested selectors to simplify CSS complexity.
-* Isolate CSS into separate files for each component.
+* Isolate CSS into separate files for each component using CSS modules (e.g., `ComponentName.module.css`).
