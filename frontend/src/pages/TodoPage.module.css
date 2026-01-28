@@ -35,6 +35,42 @@
   }
 }
 
+.filterSection {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: #f4f4f4;
+  border-radius: 4px;
+
+  & label {
+    font-weight: 500;
+    color: #222;
+  }
+}
+
+.filterSelect,
+.assignSelect {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  background-color: white;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+    border-color: #ffde00;
+    box-shadow: 0 0 0 3px #fffbe5;
+  }
+
+  &:disabled {
+    background-color: #f4f4f4;
+    cursor: not-allowed;
+  }
+}
+
 .todoInput {
   flex: 1;
   padding: 0.75rem;
@@ -96,9 +132,20 @@
   text-decoration: line-through;
 }
 
+.todoMeta {
+  display: flex;
+  gap: 1rem;
+}
+
 .todoDate {
   font-size: 0.85rem;
   color: #999;
+}
+
+.todoAssignment {
+  font-size: 0.85rem;
+  color: #776800;
+  font-weight: 500;
 }
 
 .todoActions {

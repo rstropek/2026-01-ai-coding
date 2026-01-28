@@ -10,19 +10,39 @@ interface Todo {
   title: string;
   is_done: boolean;
   created_at: string;
+  assigned_to_id: number | null;
+}
+
+interface Person {
+  id: number;
+  name: string;
 }
 
 export function TodoPage() {
   const [todos, setTodos] = useState<Todo[]>([]);
+  const [people, setPeople] = useState<Person[]>([]);
   const [newTodoTitle, setNewTodoTitle] = useState('');
+  const [newTodoAssignedTo, setNewTodoAssignedTo] = useState<number | null>(null);
+  const [filterPersonId, setFilterPersonId] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchTodos = async () => {
+  const fetchPeople = async () => {
+    try {
+      const { data } = await client.GET('/api/people');
+      setPeople(data || []);
+    } catch (err) {
+      console.error('Failed to fetch people:', err);
+    }
+  };
+
+  const fetchTodos = async (assignedToId: number | null = null) => {
     setLoading(true);
     setError(null);
     try {
-      const { data, error: fetchError } = await client.GET('/api/todos');
+      const { data, error: fetchError } = await client.GET('/api/todos', {
+        params: assignedToId !== null ? { query: { assigned_to_id: assignedToId } } : {},
+      });
       if (fetchError) {
         setError('Failed to fetch todos');
         return;
@@ -37,8 +57,13 @@ export function TodoPage() {
   };
 
   useEffect(() => {
+    fetchPeople();
     fetchTodos();
   }, []);
+
+  useEffect(() => {
+    fetchTodos(filterPersonId);
+  }, [filterPersonId]);
 
   const handleAddTodo = async (e: FormEvent) => {
     e.preventDefault();
@@ -47,7 +72,10 @@ export function TodoPage() {
     setError(null);
     try {
       const { data, error: createError } = await client.POST('/api/todos', {
-        body: { title: newTodoTitle },
+        body: { 
+          title: newTodoTitle,
+          assigned_to_id: newTodoAssignedTo,
+        },
       });
       if (createError) {
         setError('Failed to create todo');
@@ -56,6 +84,7 @@ export function TodoPage() {
       if (data) {
         setTodos([data, ...todos]);
         setNewTodoTitle('');
+        setNewTodoAssignedTo(null);
       }
     } catch (err) {
       setError('Failed to create todo');
@@ -99,6 +128,32 @@ export function TodoPage() {
     }
   };
 
+  const handleAssign = async (todoId: number, personId: number | null) => {
+    setError(null);
+    try {
+      const { data, error: assignError } = await client.PATCH('/api/todos/{todo_id}/assign', {
+        params: { path: { todo_id: todoId } },
+        body: { assigned_to_id: personId },
+      });
+      if (assignError) {
+        setError('Failed to assign todo');
+        return;
+      }
+      if (data) {
+        setTodos(todos.map((todo) => (todo.id === todoId ? data : todo)));
+      }
+    } catch (err) {
+      setError('Failed to assign todo');
+      console.error(err);
+    }
+  };
+
+  const getPersonName = (personId: number | null): string => {
+    if (personId === null) return 'Unassigned';
+    const person = people.find((p) => p.id === personId);
+    return person ? person.name : 'Unknown';
+  };
+
   return (
     <div className={styles.todoPage}>
       <h1>Todo Management</h1>
@@ -109,6 +164,24 @@ export function TodoPage() {
         </div>
       )}
 
+      <div className={styles.filterSection}>
+        <label htmlFor="filter">Filter by person:</label>
+        <select
+          id="filter"
+          value={filterPersonId ?? ''}
+          onChange={(e) => setFilterPersonId(e.target.value ? Number(e.target.value) : null)}
+          className={styles.filterSelect}
+        >
+          <option value="">All todos</option>
+          <option value="0">Unassigned</option>
+          {people.map((person) => (
+            <option key={person.id} value={person.id}>
+              {person.name}
+            </option>
+          ))}
+        </select>
+      </div>
+
       <form onSubmit={handleAddTodo} className={styles.todoForm}>
         <input
           type="text"
@@ -118,6 +191,19 @@ export function TodoPage() {
           className={styles.todoInput}
           disabled={loading}
         />
+        <select
+          value={newTodoAssignedTo ?? ''}
+          onChange={(e) => setNewTodoAssignedTo(e.target.value ? Number(e.target.value) : null)}
+          className={styles.assignSelect}
+          disabled={loading}
+        >
+          <option value="">Unassigned</option>
+          {people.map((person) => (
+            <option key={person.id} value={person.id}>
+              {person.name}
+            </option>
+          ))}
+        </select>
         <button type="submit" disabled={loading || !newTodoTitle.trim()}>
           Add Todo
         </button>
@@ -137,11 +223,30 @@ export function TodoPage() {
                     <span className={todo.is_done ? styles.todoTitleDone : styles.todoTitle}>
                       {todo.title}
                     </span>
-                    <span className={styles.todoDate}>
-                      {new Date(todo.created_at).toLocaleDateString()}
-                    </span>
+                    <div className={styles.todoMeta}>
+                      <span className={styles.todoDate}>
+                        {new Date(todo.created_at).toLocaleDateString()}
+                      </span>
+                      <span className={styles.todoAssignment}>
+                        Assigned to: {getPersonName(todo.assigned_to_id)}
+                      </span>
+                    </div>
                   </div>
                   <div className={styles.todoActions}>
+                    <select
+                      value={todo.assigned_to_id ?? ''}
+                      onChange={(e) => handleAssign(todo.id, e.target.value ? Number(e.target.value) : null)}
+                      className={styles.assignSelect}
+                      disabled={loading}
+                      title="Assign to person"
+                    >
+                      <option value="">Unassigned</option>
+                      {people.map((person) => (
+                        <option key={person.id} value={person.id}>
+                          {person.name}
+                        </option>
+                      ))}
+                    </select>
                     {!todo.is_done && (
                       <button
                         onClick={() => handleMarkDone(todo.id)}

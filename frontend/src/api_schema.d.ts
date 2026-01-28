@@ -30,7 +30,7 @@ export interface paths {
         };
         /**
          * Get Todos
-         * @description Get all todo items.
+         * @description Get all todo items, optionally filtered by assignment.
          */
         get: operations["get_todos_api_todos_get"];
         put?: never;
@@ -65,6 +65,26 @@ export interface paths {
         patch: operations["mark_todo_done_api_todos__todo_id__done_patch"];
         trace?: never;
     };
+    "/api/todos/{todo_id}/assign": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Assign Todo
+         * @description Assign or unassign a todo item to/from a person.
+         */
+        patch: operations["assign_todo_api_todos__todo_id__assign_patch"];
+        trace?: never;
+    };
     "/api/todos/{todo_id}": {
         parameters: {
             query?: never;
@@ -85,6 +105,54 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/people": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get People
+         * @description Get all people.
+         */
+        get: operations["get_people_api_people_get"];
+        put?: never;
+        /**
+         * Create Person
+         * @description Create a new person.
+         */
+        post: operations["create_person_api_people_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/people/{person_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Delete Person
+         * @description Delete a person.
+         */
+        delete: operations["delete_person_api_people__person_id__delete"];
+        options?: never;
+        head?: never;
+        /**
+         * Update Person
+         * @description Update a person's name.
+         */
+        patch: operations["update_person_api_people__person_id__patch"];
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -93,6 +161,32 @@ export interface components {
         HTTPValidationError: {
             /** Detail */
             detail?: components["schemas"]["ValidationError"][];
+        };
+        /**
+         * PersonCreate
+         * @description Request model for creating a person.
+         */
+        PersonCreate: {
+            /** Name */
+            name: string;
+        };
+        /**
+         * PersonResponse
+         * @description Response model for a person.
+         */
+        PersonResponse: {
+            /** Id */
+            id: number;
+            /** Name */
+            name: string;
+        };
+        /**
+         * PersonUpdate
+         * @description Request model for updating a person.
+         */
+        PersonUpdate: {
+            /** Name */
+            name: string;
         };
         /**
          * PingResponse
@@ -109,6 +203,8 @@ export interface components {
         TodoItemCreate: {
             /** Title */
             title: string;
+            /** Assigned To Id */
+            assigned_to_id?: number | null;
         };
         /**
          * TodoItemResponse
@@ -123,6 +219,16 @@ export interface components {
             is_done: boolean;
             /** Created At */
             created_at: string;
+            /** Assigned To Id */
+            assigned_to_id: number | null;
+        };
+        /**
+         * TodoItemUpdate
+         * @description Request model for updating a todo item's assignment.
+         */
+        TodoItemUpdate: {
+            /** Assigned To Id */
+            assigned_to_id?: number | null;
         };
         /** ValidationError */
         ValidationError: {
@@ -164,7 +270,10 @@ export interface operations {
     };
     get_todos_api_todos_get: {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description Filter by assigned person ID */
+                assigned_to_id?: number | null;
+            };
             header?: never;
             path?: never;
             cookie?: never;
@@ -178,6 +287,15 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["TodoItemResponse"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
                 };
             };
         };
@@ -246,6 +364,41 @@ export interface operations {
             };
         };
     };
+    assign_todo_api_todos__todo_id__assign_patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                todo_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TodoItemUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TodoItemResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     delete_todo_api_todos__todo_id__delete: {
         parameters: {
             query?: never;
@@ -263,6 +416,123 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_people_api_people_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PersonResponse"][];
+                };
+            };
+        };
+    };
+    create_person_api_people_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PersonCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PersonResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    delete_person_api_people__person_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                person_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_person_api_people__person_id__patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                person_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PersonUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PersonResponse"];
+                };
             };
             /** @description Validation Error */
             422: {
