@@ -28,6 +28,14 @@
           "Frontend"
         ],
         "dependsOrder": "parallel"
+      },
+      {
+        "label": "Apply Migrations",
+        "type": "shell",
+        "command": "uv run alembic upgrade head",
+        "options": {
+          "cwd": "backend"
+        }
       }
     ]
   }
