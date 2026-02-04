@@ -22,11 +22,13 @@ dev = [
 
 [tool.mypy]
 files = ["app"]
+exclude = ["alembic"]
 strict = true
 
 [tool.ruff]
 line-length = 120
 src = ["app"]
+exclude = ["alembic"]
 
 [tool.ruff.format]
 quote-style = "double"
