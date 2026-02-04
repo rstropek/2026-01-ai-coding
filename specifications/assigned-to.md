@@ -31,6 +31,7 @@ Users need the ability to link tasks with specific people.
 
 **Required Capabilities:**
 - When creating a new task, optionally select a person to assign it to
+- If no person is selected, store `NULL` in the corresponding database field
 - When editing an existing task, assign it to a person or change the current assignment
 - Remove the assignment from a task (make it unassigned)
 - View who a task is assigned to when looking at the task list
@@ -47,7 +48,8 @@ Users need the ability to view only the tasks assigned to a specific person.
 
 **Required Capabilities:**
 - Select a person from the list and see all tasks assigned to them
-- See unassigned tasks (tasks not assigned to anyone)
+- See unassigned tasks (tasks not assigned to anyone, i.e. `NULL` in the assignment field)
+- Make sure to align the _unassigned_ view with checking for `NULL` in the database. Design the API and frontend accordingly.
 - Clear the filter to see all tasks again
 
 **Rules:**
