@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "hooks": {
+    "beforeSubmitPrompt": [
+      {
+        "command": "node .cursor/hooks/hook-handler.js"
+      }
+    ],
+    "afterAgentResponse": [
+      {
+        "command": "node .cursor/hooks/hook-handler.js"
+      }
+    ],
+    "afterAgentThought": [
+      {
+        "command": "node .cursor/hooks/hook-handler.js"
+      }
+    ],
+    "beforeShellExecution": [
+      {
+        "command": "node .cursor/hooks/hook-handler.js"
+      }
+    ],
+    "afterShellExecution": [
+      {
+        "command": "node .cursor/hooks/hook-handler.js"
+      }
+    ],
+    "beforeMCPExecution": [
+      {
+        "command": "node .cursor/hooks/hook-handler.js"
+      }
+    ],
+    "afterMCPExecution": [
+      {
+        "command": "node .cursor/hooks/hook-handler.js"
+      }
+    ],
+    "beforeReadFile": [
+      {
+        "command": "node .cursor/hooks/hook-handler.js"
+      }
+    ],
+    "afterFileEdit": [
+      {
+        "command": "node .cursor/hooks/hook-handler.js"
+      }
+    ],
+    "stop": [
+      {
+        "command": "node .cursor/hooks/hook-handler.js"
+      }
+    ],
+    "beforeTabFileRead": [
+      {
+        "command": "node .cursor/hooks/hook-handler.js"
+      }
+    ],
+    "afterTabFileEdit": [
+      {
+        "command": "node .cursor/hooks/hook-handler.js"
+      }
+    ]
+  }
+}
+
