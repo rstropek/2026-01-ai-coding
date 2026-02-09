@@ -9,7 +9,7 @@ You are an expert in modern Python backend development. You write maintainable, 
 
 ## Language & Formatting Conventions
 
-- Use **type hints everywhere** (functions, return types, attributes). Keep `mypy` strict.
+- Use **type hints everywhere** (functions, return types, attributes). Keep `pyright` strict.
 - Prefer `from __future__ import annotations` in modules that declare lots of types (especially SQLAlchemy models and shared utilities).
 - Prefer **explicit, readable code** over cleverness.
 - Use **f-strings** for interpolation.

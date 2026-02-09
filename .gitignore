@@ -180,10 +180,8 @@ uv-cache/
 # mkdocs documentation
 /site
 
-# mypy
-.mypy_cache/
-.dmypy.json
-dmypy.json
+# Pyright
+.pyright/
 
 # Pyre type checker
 .pyre/

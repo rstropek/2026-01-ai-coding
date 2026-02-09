@@ -10,7 +10,7 @@
 - **Uvicorn** - ASGI server
 - **uv** - Python package manager
 - **pytest** - Testing framework
-- **mypy** - Static type checker
+- **pyright** - Static type checker
 - **ruff** - Linter and formatter
 
 ### Frontend
@@ -75,7 +75,7 @@ npm install
 # Backend
 cd backend
 uv run ruff check      # Lint
-uv run mypy            # Type check
+uv run pyright         # Type check
 uv run pytest          # Run tests (tests in app/**/test_*.py)
 
 # Frontend

@@ -15,15 +15,16 @@ dependencies = [
 [dependency-groups]
 dev = [
     "httpx>=0.28.1",
-    "mypy>=1.19.1",
+    "pyright>=1.1.408",
     "pytest>=9.0.2",
     "ruff>=0.14.14",
 ]
 
-[tool.mypy]
-files = ["app"]
+[tool.pyright]
+pythonVersion = "3.14"
+include = ["app"]
 exclude = ["alembic"]
-strict = true
+typeCheckingMode = "strict"
 
 [tool.ruff]
 line-length = 120

@@ -1,3 +1,5 @@
+from typing import Any, cast
+
 from fastapi.testclient import TestClient
 
 from app.main import app
@@ -30,7 +32,8 @@ def test_get_todos() -> None:
     assert response.status_code == 200  # noqa: PLR2004
     data = response.json()
     assert isinstance(data, list)
-    assert len(data) >= 2  # noqa: PLR2004
+    todos = cast("list[dict[str, Any]]", data)
+    assert len(todos) >= 2  # noqa: PLR2004
 
 
 def test_mark_todo_done() -> None:

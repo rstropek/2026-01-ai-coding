@@ -23,7 +23,7 @@ npm install
 ```bash
 cd backend
 uv run ruff check # Linting the code
-uv run mypy # Type checking the code
+uv run pyright # Type checking the code
 uv run pytest # Running the tests
 ```
 
