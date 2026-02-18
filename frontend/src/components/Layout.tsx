@@ -25,6 +25,9 @@ export function Layout() {
             <li>
               <Link to="/todos">Todos</Link>
             </li>
+            <li>
+              <Link to="/calculator">Calculator</Link>
+            </li>
           </ul>
         </nav>
       </header>

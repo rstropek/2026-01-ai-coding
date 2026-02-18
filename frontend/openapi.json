@@ -170,10 +170,84 @@
           }
         }
       }
+    },
+    "/api/calculator/add": {
+      "post": {
+        "tags": [
+          "calculator"
+        ],
+        "summary": "Add",
+        "operationId": "add_api_calculator_add_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "AddRequest": {
+        "properties": {
+          "a": {
+            "type": "number",
+            "title": "A"
+          },
+          "b": {
+            "type": "number",
+            "title": "B"
+          }
+        },
+        "type": "object",
+        "required": [
+          "a",
+          "b"
+        ],
+        "title": "AddRequest",
+        "description": "Request model for add endpoint."
+      },
+      "AddResponse": {
+        "properties": {
+          "result": {
+            "type": "number",
+            "title": "Result"
+          }
+        },
+        "type": "object",
+        "required": [
+          "result"
+        ],
+        "title": "AddResponse",
+        "description": "Response model for add endpoint."
+      },
       "HTTPValidationError": {
         "properties": {
           "detail": {
