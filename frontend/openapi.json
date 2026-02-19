@@ -32,19 +32,47 @@
           "todos"
         ],
         "summary": "Get Todos",
-        "description": "Get all todo items.",
+        "description": "Get all todo items, optionally filtered by assignment.\n\n- assigned_to=null: returns todos with no assignment\n- assigned_to=<id>: returns todos assigned to that person\n- (omitted): returns all todos",
         "operationId": "get_todos_api_todos_get",
+        "parameters": [
+          {
+            "name": "assigned_to",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assigned To"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful Response",
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/TodoItemResponse"
                   },
-                  "type": "array",
                   "title": "Response Get Todos Api Todos Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
                 }
               }
             }
@@ -59,14 +87,14 @@
         "description": "Create a new todo item.",
         "operationId": "create_todo_api_todos_post",
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/TodoItemCreate"
               }
             }
-          },
-          "required": true
+          }
         },
         "responses": {
           "201": {
@@ -135,6 +163,59 @@
         }
       }
     },
+    "/api/todos/{todo_id}/assign": {
+      "patch": {
+        "tags": [
+          "todos"
+        ],
+        "summary": "Assign Todo",
+        "description": "Assign or unassign a todo item. Pass assigned_to_id=null to unassign.",
+        "operationId": "assign_todo_api_todos__todo_id__assign_patch",
+        "parameters": [
+          {
+            "name": "todo_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Todo Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TodoItemUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TodoItemResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/todos/{todo_id}": {
       "delete": {
         "tags": [
@@ -151,6 +232,159 @@
             "schema": {
               "type": "integer",
               "title": "Todo Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/persons": {
+      "get": {
+        "tags": [
+          "persons"
+        ],
+        "summary": "Get Persons",
+        "description": "Get all persons.",
+        "operationId": "get_persons_api_persons_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/PersonResponse"
+                  },
+                  "type": "array",
+                  "title": "Response Get Persons Api Persons Get"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "persons"
+        ],
+        "summary": "Create Person",
+        "description": "Create a new person.",
+        "operationId": "create_person_api_persons_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/persons/{person_id}": {
+      "put": {
+        "tags": [
+          "persons"
+        ],
+        "summary": "Update Person",
+        "description": "Update a person's name.",
+        "operationId": "update_person_api_persons__person_id__put",
+        "parameters": [
+          {
+            "name": "person_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Person Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "persons"
+        ],
+        "summary": "Delete Person",
+        "description": "Delete a person. Fails if the person is assigned to any tasks.",
+        "operationId": "delete_person_api_persons__person_id__delete",
+        "parameters": [
+          {
+            "name": "person_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Person Id"
             }
           }
         ],
@@ -261,6 +495,57 @@
         "type": "object",
         "title": "HTTPValidationError"
       },
+      "PersonCreate": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Name"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "PersonCreate",
+        "description": "Request model for creating a person."
+      },
+      "PersonResponse": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name"
+        ],
+        "title": "PersonResponse",
+        "description": "Response model for a person."
+      },
+      "PersonUpdate": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Name"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "PersonUpdate",
+        "description": "Request model for updating a person."
+      },
       "PingResponse": {
         "properties": {
           "message": {
@@ -282,6 +567,17 @@
             "maxLength": 200,
             "minLength": 1,
             "title": "Title"
+          },
+          "assigned_to_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Assigned To Id"
           }
         },
         "type": "object",
@@ -308,6 +604,28 @@
           "created_at": {
             "type": "string",
             "title": "Created At"
+          },
+          "assigned_to_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Assigned To Id"
+          },
+          "assigned_to_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Assigned To Name"
           }
         },
         "type": "object",
@@ -315,10 +633,30 @@
           "id",
           "title",
           "is_done",
-          "created_at"
+          "created_at",
+          "assigned_to_id",
+          "assigned_to_name"
         ],
         "title": "TodoItemResponse",
         "description": "Response model for a todo item."
+      },
+      "TodoItemUpdate": {
+        "properties": {
+          "assigned_to_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Assigned To Id"
+          }
+        },
+        "type": "object",
+        "title": "TodoItemUpdate",
+        "description": "Request model for updating a todo item's assignment."
       },
       "ValidationError": {
         "properties": {

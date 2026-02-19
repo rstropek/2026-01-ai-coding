@@ -26,6 +26,9 @@ export function Layout() {
               <Link to="/todos">Todos</Link>
             </li>
             <li>
+              <Link to="/people">People</Link>
+            </li>
+            <li>
               <Link to="/calculator">Calculator</Link>
             </li>
           </ul>

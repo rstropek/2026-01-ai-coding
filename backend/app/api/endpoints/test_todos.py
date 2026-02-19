@@ -15,6 +15,8 @@ def test_create_todo() -> None:
     data = response.json()
     assert data["title"] == "Test Todo"
     assert data["is_done"] is False
+    assert data["assigned_to_id"] is None
+    assert data["assigned_to_name"] is None
     assert "id" in data
     assert "created_at" in data
     assert "location" in response.headers

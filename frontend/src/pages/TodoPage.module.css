@@ -1,6 +1,6 @@
 /* Todo Page Styles */
 .todoPage {
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
 
   & h1 {
@@ -12,7 +12,8 @@
 .todoForm {
   display: flex;
   gap: 0.5rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
 
   & button {
     padding: 0.75rem 1.5rem;
@@ -37,6 +38,7 @@
 
 .todoInput {
   flex: 1;
+  min-width: 200px;
   padding: 0.75rem;
   font-size: 1rem;
   border: 2px solid #ddd;
@@ -47,6 +49,67 @@
     outline: none;
     border-color: #4CAF50;
   }
+}
+
+.assignSelect {
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  min-width: 150px;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+    border-color: #4CAF50;
+  }
+}
+
+.filterBar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.filterLabel {
+  font-size: 0.9rem;
+  color: #555;
+  font-weight: 500;
+  margin-right: 0.25rem;
+}
+
+.filterBtn {
+  padding: 0.4rem 0.9rem;
+  font-size: 0.85rem;
+  background-color: #e0e0e0;
+  color: #333;
+  border: 2px solid transparent;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: #d0d0d0;
+  }
+}
+
+.filterBtnActive {
+  background-color: #2196F3;
+  color: white;
+  border-color: #1976D2;
+
+  &:hover {
+    background-color: #1976D2;
+  }
+}
+
+.filterSummary {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 1.5rem;
 }
 
 .todoList {
@@ -82,7 +145,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.4rem;
 }
 
 .todoTitle {
@@ -96,14 +159,52 @@
   text-decoration: line-through;
 }
 
+.todoMeta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
 .todoDate {
   font-size: 0.85rem;
   color: #999;
 }
 
+.assignedBadge {
+  font-size: 0.8rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  border: 1px solid #bbb;
+  background-color: #f0f4ff;
+  color: #444;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: #dce8ff;
+    border-color: #2196F3;
+    color: #1565C0;
+  }
+}
+
+.assignSelectInline {
+  font-size: 0.85rem;
+  padding: 0.2rem 0.5rem;
+  border: 2px solid #2196F3;
+  border-radius: 4px;
+  background-color: white;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+}
+
 .todoActions {
   display: flex;
   gap: 0.5rem;
+  margin-left: 1rem;
 }
 
 .btnDone,

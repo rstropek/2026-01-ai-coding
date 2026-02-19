@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from app.api.endpoints import calculator, ping, todos
+from app.api.endpoints import calculator, persons, ping, todos
 
 api_router = APIRouter(prefix="/api")
 
@@ -12,6 +12,11 @@ api_router.include_router(
 api_router.include_router(
     todos.router,
     tags=["todos"],
+)
+
+api_router.include_router(
+    persons.router,
+    tags=["persons"],
 )
 
 api_router.include_router(

@@ -4,6 +4,7 @@ import { Layout } from '@/components/Layout';
 import { Home } from '@/pages/Home';
 import { PingPage } from '@/pages/PingPage';
 import { TodoPage } from '@/pages/TodoPage';
+import { PeoplePage } from '@/pages/PeoplePage';
 import { CalculatorPage } from '@/pages/CalculatorPage';
 
 export function App() {
@@ -13,6 +14,7 @@ export function App() {
         <Route index element={<Home />} />
         <Route path="ping" element={<PingPage />} />
         <Route path="todos" element={<TodoPage />} />
+        <Route path="people" element={<PeoplePage />} />
         <Route path="calculator" element={<CalculatorPage />} />
       </Route>
     </Routes>
