@@ -74,6 +74,7 @@ claude --dangerously-skip-permissions -p "Create a hello.py that prints Hello, W
 
 ### 2d. Configure permissions
 
+* [Available tools](https://code.claude.com/docs/en/settings#tools-available-to-claude)
 * [Configure permissions](https://code.claude.com/docs/en/permissions)
 * [Claude settings](https://code.claude.com/docs/en/settings)
 
@@ -128,3 +129,18 @@ ls ~/.claude/projects/
 # Each project directory contains JSONL conversation files
 # The session ID maps to a file in the relevant project folder
 ```
+
+## 7. Worktree
+
+```bash
+# Start a new Claude session in a separate worktree
+claude --worktree feature-responsive
+
+# Will create an isolated worktree (branch has same name)
+# and start a new Claude session in it.
+
+claude --worktree
+# Will auto-generate a worktree/branch name
+```
+
+Note: Worktree cleanup is done automatically when you exit the session.
